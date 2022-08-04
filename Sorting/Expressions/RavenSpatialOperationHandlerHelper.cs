@@ -1,0 +1,43 @@
+using System.Diagnostics.CodeAnalysis;
+using HotChocolate.Data.Sorting;
+using HotChocolate.Language;
+using HotChocolate.Types;
+
+namespace HotChocolate.Raven.Spatial.Sorting.Expressions;
+
+public static class RavenSpatialOperationHandlerHelper
+{
+    public static bool TryGetParameter<T>(
+        ISortField parentField,
+        IValueNode node,
+        string fieldName,
+        InputParser inputParser,
+        [NotNullWhen(true)] out T fieldNode
+    )
+    {
+        if (parentField.Type is InputObjectType inputType &&
+            node is ObjectValueNode objectValueNode)
+        {
+            for (var i = 0; i < objectValueNode.Fields.Count; i++)
+            {
+                if (objectValueNode.Fields[i].Name.Value == fieldName)
+                {
+                    var fieldValue = objectValueNode.Fields[i];
+                    IInputField field = inputType.Fields[fieldName];
+
+                    if (inputParser.ParseLiteral(fieldValue.Value, field) is T val)
+                    {
+                        fieldNode = val;
+                        return true;
+                    }
+
+                    fieldNode = default!;
+                    return false;
+                }
+            }
+        }
+
+        fieldNode = default!;
+        return false;
+    }
+}

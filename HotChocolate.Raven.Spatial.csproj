@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>HotChocolate.Raven.Spatial</PackageId>
+    <RootNamespace>HotChocolate.Raven.Spatial</RootNamespace>
+    <Nullable>enable</Nullable>
+<!--    <WarningsAsErrors>$(WarningsAsErrors);nullable</WarningsAsErrors>-->
+<!--    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
+    <NeutralLanguage>en</NeutralLanguage>
+    <Description>Contains extensions for seamless integration of NetTopologySuite into the HotChocolate.Data package</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HotChocolate.Data" Version="12.12.1" />
+    <PackageReference Include="HotChocolate.Types.Spatial" Version="12.12.1" />
+    <PackageReference Include="RavenDB.Client" Version="5.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="DataResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DataResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DataResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
